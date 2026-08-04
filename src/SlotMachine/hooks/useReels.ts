@@ -76,9 +76,7 @@ export function useReels(
     if (!reel.rolling) return true;
 
     const speed = 15;
-
     const direction = reel.target > mesh.rotation.y ? 1 : -1;
-
     mesh.rotation.y += speed * delta * direction;
 
     if (
@@ -86,7 +84,6 @@ export function useReels(
       (direction === -1 && mesh.rotation.y <= reel.target)
     ) {
       mesh.rotation.y = reel.target;
-
       reel.rolling = false;
       return true;
     }
