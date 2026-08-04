@@ -15,17 +15,17 @@ export interface ReelMap {
 }
 
 export const reel1Map = {
-  cherry: 4,
+  cherry: 3,
   lemon: 3,
-  star: 2,
+  star: 3,
   seven: 1,
   diamond: 0,
 };
 
 export const reel2Map = {
-  cherry: 5,
+  cherry: 4,
   lemon: 3,
-  star: 1,
+  star: 2,
   seven: 1,
   diamond: 0,
 };

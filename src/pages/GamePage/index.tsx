@@ -1,4 +1,4 @@
-import SlotMachineScene from "@/scenes/SlotMachineScene";
+import SlotMachineScene from "@/SlotMachine/slot-machine.scene";
 
 export default function GamePage() {
   return (

@@ -4,16 +4,15 @@ import { ThreeElements } from "@react-three/fiber";
 import type {
   MouseActionState,
   SlotMachineHover,
-} from "@/scenes/SlotMachineScene";
+} from "@/SlotMachine/slot-machine.scene";
 import { SetStateAction, Dispatch } from "react";
 import { useNodes } from "@/hooks/useNodes";
 
-import { useSlotMachine } from "./useSlotMachine";
+import { useReels } from "../hooks/useReels";
 
-import { generateReelsSymbols } from "@/utils/generateReelsSymbols";
-import { createReelTexture } from "@/utils/createReelTexture";
-import { useMemo } from "react";
-import * as THREE from "three";
+import { getMachineMaterials } from "../materials/machine.materials";
+
+import { useLever } from "../hooks/useLever";
 
 type SlotMachineModelProps = ThreeElements["group"] & {
   setMouseAction: Dispatch<SetStateAction<MouseActionState>>;
@@ -39,44 +38,35 @@ export function SlotMachineModel({
 }: SlotMachineModelProps) {
   const { nodes } = useNodes("slot-machine");
 
-  // console.log(generateReelsSymbols());
+  const { reelMaterials, reels, machineMaterials } = getMachineMaterials();
 
-  const {
-    leverRef,
-    materials,
-    handlePointerDown,
-    handlePointerUp,
-    handlePointerMove,
-    reel1Ref,
-    reel2Ref,
-    reel3Ref,
-    reelMaterial1,
-    reelMaterial2,
-    reelMaterial3,
-  } = useSlotMachine(
-    setMouseAction,
-    mouseAction,
-    setMachineReady,
-    machineReady,
-    isHover,
-    setIsHover,
-    usingCoin
-  );
+  const { reel1Ref, reel2Ref, reel3Ref, startMachine } =
+    useReels(setMachineReady, reels);
+
+  const { handlePointerDown, handlePointerMove, handlePointerUp, leverRef } =
+    useLever(
+      machineReady,
+      setMouseAction,
+      mouseAction,
+      setIsHover,
+      startMachine,
+      usingCoin,
+    );
 
   return (
     <group {...props} dispose={null} rotation={[0, Math.PI / 2, 0]}>
       <mesh
-        // visible={false}
+        visible={false}
         geometry={nodes.Body.geometry}
-        material={materials.body.default}
+        material={machineMaterials.body.default}
         scale={[0.66, 1.098, 0.666]}
       />
       <mesh
         geometry={nodes.CoinEntry.geometry}
         material={
           isHover.coinEntry && !machineReady
-            ? materials.body.active
-            : materials.body.default
+            ? machineMaterials.body.active
+            : machineMaterials.body.default
         }
         scale={[0.66, 1.098, 0.666]}
         onPointerOver={() =>
@@ -101,7 +91,7 @@ export function SlotMachineModel({
       >
         <mesh
           geometry={nodes.Cylinder002.geometry}
-          material={materials.rod}
+          material={machineMaterials.rod}
           castShadow
           receiveShadow
         />
@@ -109,8 +99,8 @@ export function SlotMachineModel({
           geometry={nodes.Cylinder002_1.geometry}
           material={
             mouseAction.dragging || isHover.handle
-              ? materials.handle.active
-              : materials.handle.default
+              ? machineMaterials.handle.active
+              : machineMaterials.handle.default
           }
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
@@ -135,14 +125,14 @@ export function SlotMachineModel({
       <mesh
         ref={reel1Ref}
         geometry={nodes.Reel1.geometry}
-        material={reelMaterial1}
+        material={reelMaterials.reel1}
         position={[0.154, 1.972, -0.395]}
         rotation={[Math.PI / 2, Math.PI / 2, 0]}
         scale={[0.334, 0.193, 0.334]}
       />
       <mesh
         geometry={nodes.Reel1Caps.geometry}
-        material={materials.rod}
+        material={machineMaterials.rod}
         position={[0.154, 1.972, -0.395]}
         rotation={[Math.PI / 2, Math.PI / 2, 0]}
         scale={[0.334, 0.193, 0.334]}
@@ -150,14 +140,14 @@ export function SlotMachineModel({
       <mesh
         ref={reel2Ref}
         geometry={nodes.Reel2.geometry}
-        material={reelMaterial2}
+        material={reelMaterials.reel2}
         position={[0.154, 1.972, 0]}
         rotation={[Math.PI / 2, Math.PI / 2, 0]}
         scale={[0.334, 0.193, 0.334]}
       />
       <mesh
         geometry={nodes.Reel2Caps.geometry}
-        material={materials.rod}
+        material={machineMaterials.rod}
         position={[0.154, 1.972, 0]}
         rotation={[Math.PI / 2, Math.PI / 2, 0]}
         scale={[0.334, 0.193, 0.334]}
@@ -165,14 +155,14 @@ export function SlotMachineModel({
       <mesh
         ref={reel3Ref}
         geometry={nodes.Reel3.geometry}
-        material={reelMaterial3}
+        material={reelMaterials.reel3}
         position={[0.154, 1.972, 0.395]}
         rotation={[Math.PI / 2, Math.PI / 2, 0]}
         scale={[0.334, 0.193, 0.334]}
       />
       <mesh
         geometry={nodes.Reel3Caps.geometry}
-        material={materials.rod}
+        material={machineMaterials.rod}
         position={[0.154, 1.972, 0.395]}
         rotation={[Math.PI / 2, Math.PI / 2, 0]}
         scale={[0.334, 0.193, 0.334]}

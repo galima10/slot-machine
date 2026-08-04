@@ -1,10 +1,9 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { SlotMachineModel } from "@/components/models-components/SlotMachineModel/SlotMachine";
-import { CoinModel } from "@/components/models-components/CoinModel/Coin";
+import { SlotMachineModel } from "@/SlotMachine/models/machine.model";
+import { CoinModel } from "@/SlotMachine/models/coin.model";
 import { Environment } from "@react-three/drei";
 import * as THREE from "three";
-import { useFrame } from "@react-three/fiber";
 
 import { useState, useRef } from "react";
 
@@ -69,29 +68,40 @@ export default function SlotMachineScene() {
   }
 
   return (
-    <Canvas shadows>
-      {!Object.values(mouseAction).some(Boolean) && <OrbitControls />}
+    <Canvas shadows onContextMenu={(e) => e.preventDefault()}>
+      {!Object.values(mouseAction).some(Boolean) && (
+        <OrbitControls
+          enablePan={false}
+          mouseButtons={{
+            LEFT: THREE.MOUSE.PAN,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.ROTATE,
+          }}
+        />
+      )}
 
       <Environment preset="warehouse" />
       <ambientLight intensity={3} />
 
       <directionalLight position={[5, 10, 5]} intensity={2} castShadow />
-      <CoinModel
-        position={[-0.715, 2.15, -0.1325]}
-        visible={false}
-        ref={coinRef}
-        coinInserted={coinInserted}
-      />
-      <SlotMachineModel
-        setMouseAction={setMouseAction}
-        mouseAction={mouseAction}
-        setMachineReady={setMachineReady}
-        machineReady={machineReady}
-        insertCoin={insertCoin}
-        isHover={isHover}
-        setIsHover={setIsHover}
-        usingCoin={usingCoin}
-      />
+      <group position={[0, -1.75, 0]}>
+        <CoinModel
+          position={[-0.715, 2.15, -0.1325]}
+          visible={false}
+          ref={coinRef}
+          coinInserted={coinInserted}
+        />
+        <SlotMachineModel
+          setMouseAction={setMouseAction}
+          mouseAction={mouseAction}
+          setMachineReady={setMachineReady}
+          machineReady={machineReady}
+          insertCoin={insertCoin}
+          isHover={isHover}
+          setIsHover={setIsHover}
+          usingCoin={usingCoin}
+        />
+      </group>
     </Canvas>
   );
 }

@@ -4,7 +4,7 @@ import type { GLTF } from "three-stdlib";
 import { ThreeElements } from "@react-three/fiber";
 import { useNodes } from "@/hooks/useNodes";
 import { useMemo, useRef, type SetStateAction, type Dispatch } from "react";
-import { useCoin } from "./useCoin";
+import { useCoin } from "../hooks/useCoin";
 import { useFrame } from "@react-three/fiber";
 
 type CoinMachineModelProps = ThreeElements["group"] & {
