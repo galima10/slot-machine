@@ -56,7 +56,7 @@ export function SlotMachineModel({
   return (
     <group {...props} dispose={null} rotation={[0, Math.PI / 2, 0]}>
       <mesh
-        visible={false}
+        // visible={false}
         geometry={nodes.Body.geometry}
         material={machineMaterials.body.default}
         scale={[0.66, 1.098, 0.666]}
@@ -127,7 +127,7 @@ export function SlotMachineModel({
         geometry={nodes.Reel1.geometry}
         material={reelMaterials.reel1}
         position={[0.154, 1.972, -0.395]}
-        rotation={[Math.PI / 2, Math.PI / 2, 0]}
+        rotation={[Math.PI / 2, 0, 0]}
         scale={[0.334, 0.193, 0.334]}
       />
       <mesh
@@ -142,7 +142,7 @@ export function SlotMachineModel({
         geometry={nodes.Reel2.geometry}
         material={reelMaterials.reel2}
         position={[0.154, 1.972, 0]}
-        rotation={[Math.PI / 2, Math.PI / 2, 0]}
+        rotation={[Math.PI / 2, 0, 0]}
         scale={[0.334, 0.193, 0.334]}
       />
       <mesh
@@ -157,7 +157,7 @@ export function SlotMachineModel({
         geometry={nodes.Reel3.geometry}
         material={reelMaterials.reel3}
         position={[0.154, 1.972, 0.395]}
-        rotation={[Math.PI / 2, Math.PI / 2, 0]}
+        rotation={[Math.PI / 2, 0, 0]}
         scale={[0.334, 0.193, 0.334]}
       />
       <mesh
