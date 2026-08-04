@@ -1,5 +1,4 @@
 import {
-  symbols,
   reel1Map,
   reel2Map,
   reel3Map,
@@ -10,7 +9,7 @@ function generateReel(map: ReelMap): string[] {
   const finalReel: string[] = [];
   for (const symbol of Object.keys(map)) {
     for (let i = 0; i < map[symbol]; i++) {
-      finalReel.push(symbols[symbol]);
+      finalReel.push(symbol);
     }
   }
   return finalReel;

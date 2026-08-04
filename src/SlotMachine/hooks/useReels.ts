@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { useRef } from "react";
 import { type ThreeEvent, useFrame } from "@react-three/fiber";
-import type { SetStateAction, Dispatch } from "react";
+import type { SetStateAction, Dispatch, RefObject } from "react";
 import { getRandomInt } from "@/utils/getRandomInt";
+import { payouts } from "@/constants/symbols";
 
 interface ReelState {
   start: number;
@@ -21,6 +22,7 @@ export function useReels(
     reel2: string[];
     reel3: string[];
   },
+  isRolling: RefObject<boolean>,
 ) {
   const symbolAngle = (Math.PI * 2) / 10;
   const offsetAngle = symbolAngle * 2;
@@ -64,12 +66,13 @@ export function useReels(
     setTimeout(() => {
       setMachineReady(false);
     }, 1000);
-    const finalLine =
-      reels.reel1[reel1.current.targetIndex] +
-      reels.reel2[reel2.current.targetIndex] +
-      reels.reel3[reel3.current.targetIndex];
-
-    console.log(finalLine);
+    const finalLine = `${reels.reel1[reel1.current.targetIndex]},${reels.reel2[reel2.current.targetIndex]},${reels.reel3[reel3.current.targetIndex]}`;
+    const result = payouts[finalLine];
+    if (result) {
+      console.log(finalLine, result?.coins);
+    } else {
+      console.error("Perdu", finalLine);
+    }
   }
 
   function updateReel(reel: ReelState, mesh: THREE.Mesh, delta: number) {
@@ -80,8 +83,9 @@ export function useReels(
     mesh.rotation.y += speed * delta * direction;
 
     if (
-      (direction === 1 && mesh.rotation.y >= reel.target) ||
-      (direction === -1 && mesh.rotation.y <= reel.target)
+      ((direction === 1 && mesh.rotation.y >= reel.target) ||
+        (direction === -1 && mesh.rotation.y <= reel.target)) &&
+      !hasFinished.current
     ) {
       mesh.rotation.y = reel.target;
       reel.rolling = false;
@@ -95,7 +99,7 @@ export function useReels(
     if (!reel1Ref.current || !reel2Ref.current || !reel3Ref.current) return;
     reel1Ref.current.rotation.y = offsetAngle;
     reel2Ref.current.rotation.y = offsetAngle;
-    reel3Ref.current.rotation.y = offsetAngle
+    reel3Ref.current.rotation.y = offsetAngle;
     const reel1Index = getRandomInt(10);
     const reel2Index = getRandomInt(10);
     const reel3Index = getRandomInt(10);
@@ -112,8 +116,7 @@ export function useReels(
     turns: number,
   ) {
     reel.start = mesh.rotation.y;
-    reel.target =
-      turns * Math.PI * 2 + targetIndex * symbolAngle + offsetAngle;
+    reel.target = turns * Math.PI * 2 + targetIndex * symbolAngle + offsetAngle;
 
     reel.currentIndex = targetIndex;
     reel.targetIndex = (10 - targetIndex) % 10;
@@ -123,6 +126,7 @@ export function useReels(
 
   function startMachine() {
     hasFinished.current = false;
+    isRolling.current = true;
     startSpin();
   }
 
@@ -131,8 +135,15 @@ export function useReels(
     const reel2Done = updateReel(reel2.current, reel2Ref.current, delta);
     const reel3Done = updateReel(reel3.current, reel3Ref.current, delta);
 
-    if (reel1Done && reel2Done && reel3Done && !hasFinished.current) {
+    if (
+      reel1Done &&
+      reel2Done &&
+      reel3Done &&
+      !hasFinished.current &&
+      isRolling.current
+    ) {
       hasFinished.current = true;
+      isRolling.current = false;
       finishSpin();
     }
   });

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import * as THREE from "three";
 import { MouseActionState, SlotMachineHover } from "../slot-machine.scene";
 import { type ThreeEvent, useFrame } from "@react-three/fiber";
-import type { SetStateAction, Dispatch } from "react";
+import type { SetStateAction, Dispatch, RefObject } from "react";
 
 export function useLever(
   machineReady: boolean,
@@ -11,6 +11,7 @@ export function useLever(
   setIsHover: Dispatch<SetStateAction<SlotMachineHover>>,
   startMachine: () => void,
   usingCoin: () => void,
+  isRolling: RefObject<boolean>,
 ) {
   const leverRef = useRef<THREE.Group>(null);
   const leverReturning = useRef(false);
@@ -21,7 +22,7 @@ export function useLever(
   });
 
   function handlePointerDown(e: ThreeEvent<PointerEvent>) {
-    if (!machineReady) return;
+    if (!machineReady || isRolling.current) return;
     e.stopPropagation();
 
     (e.target as Element).setPointerCapture(e.pointerId);

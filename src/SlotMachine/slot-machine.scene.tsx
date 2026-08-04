@@ -29,7 +29,6 @@ export default function SlotMachineScene() {
   });
   function insertCoin() {
     if (machineReady) return;
-    console.log("pièce insérée !");
     coinRef.current.position.set(-0.72, 2.15, -0.15);
 
     setIsHover((prev) => ({
@@ -68,7 +67,7 @@ export default function SlotMachineScene() {
   }
 
   return (
-    <Canvas shadows onContextMenu={(e) => e.preventDefault()}>
+    <Canvas onContextMenu={(e) => e.preventDefault()}>
       {!Object.values(mouseAction).some(Boolean) && (
         <OrbitControls
           enablePan={false}

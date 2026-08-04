@@ -13,6 +13,7 @@ import { useReels } from "../hooks/useReels";
 import { getMachineMaterials } from "../materials/machine.materials";
 
 import { useLever } from "../hooks/useLever";
+import { useRef } from "react";
 
 type SlotMachineModelProps = ThreeElements["group"] & {
   setMouseAction: Dispatch<SetStateAction<MouseActionState>>;
@@ -40,8 +41,13 @@ export function SlotMachineModel({
 
   const { reelMaterials, reels, machineMaterials } = getMachineMaterials();
 
-  const { reel1Ref, reel2Ref, reel3Ref, startMachine } =
-    useReels(setMachineReady, reels);
+  const isRolling = useRef(false);
+
+  const { reel1Ref, reel2Ref, reel3Ref, startMachine } = useReels(
+    setMachineReady,
+    reels,
+    isRolling,
+  );
 
   const { handlePointerDown, handlePointerMove, handlePointerUp, leverRef } =
     useLever(
@@ -51,6 +57,7 @@ export function SlotMachineModel({
       setIsHover,
       startMachine,
       usingCoin,
+      isRolling,
     );
 
   return (
@@ -64,7 +71,7 @@ export function SlotMachineModel({
       <mesh
         geometry={nodes.CoinEntry.geometry}
         material={
-          isHover.coinEntry && !machineReady
+          isHover.coinEntry && !machineReady && !isRolling.current
             ? machineMaterials.body.active
             : machineMaterials.body.default
         }
@@ -98,7 +105,7 @@ export function SlotMachineModel({
         <mesh
           geometry={nodes.Cylinder002_1.geometry}
           material={
-            mouseAction.dragging || isHover.handle
+            (mouseAction.dragging || isHover.handle) && !isRolling.current
               ? machineMaterials.handle.active
               : machineMaterials.handle.default
           }

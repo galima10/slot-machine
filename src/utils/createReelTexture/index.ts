@@ -1,17 +1,18 @@
 import * as THREE from "three";
+import { symbols } from "@/constants/symbols";
 
-export function createReelTexture(symbols: string[]) {
+export function createReelTexture(symbolsText: string[]) {
   const canvas = document.createElement("canvas");
 
   const symbolSize = 256;
   const height = 1024;
 
-  canvas.width = symbols.length * symbolSize;
+  canvas.width = symbolsText.length * symbolSize;
   canvas.height = height;
 
   const ctx = canvas.getContext("2d")!;
 
-  symbols.forEach((symbol, index) => {
+  symbolsText.forEach((symbol, index) => {
     const x = index * symbolSize;
 
     // case
@@ -40,7 +41,7 @@ export function createReelTexture(symbols: string[]) {
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
 
-    ctx.fillText(symbol, 0, 0);
+    ctx.fillText(symbols[symbol], 0, 0);
 
     ctx.restore();
   });

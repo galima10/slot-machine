@@ -38,44 +38,49 @@ export const reel3Map = {
   diamond: 1,
 };
 
-export const payouts = {
+export const payouts: {
+  [line: string]: {
+    coins: number;
+    coinCount: number;
+  };
+} = {
   "cherry,cherry,cherry": {
     coins: 5,
-    models: 3,
+    coinCount: 3,
   },
 
   "lemon,lemon,lemon": {
     coins: 10,
-    models: 5,
+    coinCount: 5,
   },
 
   "star,star,star": {
     coins: 25,
-    models: 10,
+    coinCount: 10,
   },
 
   "seven,seven,seven": {
     coins: 100,
-    models: 15,
+    coinCount: 15,
   },
 
   "cherry,cherry,diamond": {
     coins: 15,
-    models: 8,
+    coinCount: 8,
   },
 
   "lemon,lemon,diamond": {
     coins: 30,
-    models: 12,
+    coinCount: 12,
   },
 
   "star,star,diamond": {
     coins: 75,
-    models: 20,
+    coinCount: 20,
   },
 
   "seven,seven,diamond": {
     coins: 300,
-    models: 30,
+    coinCount: 30,
   },
 };
