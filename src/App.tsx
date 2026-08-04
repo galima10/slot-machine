@@ -1,6 +1,5 @@
 import SlotMachineScene from "@/scenes/SlotMachineScene";
 
-
 function App() {
   return (
     <>
