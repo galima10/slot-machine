@@ -1,10 +1,10 @@
 import { useFrame } from "@react-three/fiber";
 import type { RefObject } from "react";
-import * as THREE from "three";
+import { type Group, MathUtils } from "three";
 
 export function useCoin(
   coinDropping: RefObject<boolean>,
-  coinRef: RefObject<THREE.Group>,
+  coinRef: RefObject<Group>,
 ) {
   function coinInserted(delta: number) {
     if (!coinDropping.current || !coinRef.current) return;
@@ -16,7 +16,7 @@ export function useCoin(
 
     const current = coinRef.current.position.y;
 
-    coinRef.current.position.y = THREE.MathUtils.lerp(
+    coinRef.current.position.y = MathUtils.lerp(
       current,
       minY,
       delta * speed,

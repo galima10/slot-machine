@@ -1,11 +1,11 @@
 import type { SetStateAction, Dispatch, RefObject } from "react";
 import type { SlotMachineHover } from "../slot-machine.scene";
-import * as THREE from "three";
+import type { Group } from "three";
 
 export function useCoinEntry(
   machineReady: RefObject<boolean>,
   setIsHover: Dispatch<SetStateAction<SlotMachineHover>>,
-  coinRef: RefObject<THREE.Group>,
+  coinRef: RefObject<Group>,
   coinDropping: RefObject<boolean>,
 ) {
   function insertCoin() {

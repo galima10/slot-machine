@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import { CanvasTexture } from "three";
 import { symbols } from "@/SlotMachine/constants/symbols";
 
 export function createReelTexture(symbolsText: string[]) {
@@ -46,7 +46,7 @@ export function createReelTexture(symbolsText: string[]) {
     ctx.restore();
   });
 
-  const texture = new THREE.CanvasTexture(canvas);
+  const texture = new CanvasTexture(canvas);
 
   texture.needsUpdate = true;
 

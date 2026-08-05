@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import type { Group } from "three";
 import { useGLTF } from "@react-three/drei";
 import { ThreeElements } from "@react-three/fiber";
 import type { RefObject } from "react";
@@ -7,7 +7,7 @@ import type { CoinGLTFResult } from "@/SlotMachine/types/Coin";
 
 type CoinMachineModelProps = ThreeElements["group"] & {
   coinDropping: RefObject<boolean>;
-  coinRef: RefObject<THREE.Group>;
+  coinRef: RefObject<Group>;
   actualCoins: RefObject<number>;
 };
 

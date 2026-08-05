@@ -1,4 +1,6 @@
-import GamePage from "./game";
+import { lazy } from "react";
+
+const GamePage = lazy(() => import("./game"));
 
 function App() {
   return (

@@ -14,14 +14,14 @@ import { getMachineMaterials } from "../materials/machine.materials";
 import { useLever } from "../hooks/useLever";
 import { useRef, type RefObject, useState } from "react";
 import { useCoinEntry } from "../hooks/useCoinEntry";
-import * as THREE from "three";
+import type { Group } from "three";
 import type { SlotMachineGLTFResult } from "@/SlotMachine/types/SlotMachine";
 
 type SlotMachineModelProps = ThreeElements["group"] & {
   setMouseAction: Dispatch<SetStateAction<MouseActionState>>;
   mouseAction: MouseActionState;
   machineReady: RefObject<boolean>;
-  coinRef: RefObject<THREE.Group>;
+  coinRef: RefObject<Group>;
   coinDropping: RefObject<boolean>;
   actualCoins: RefObject<number>;
 };

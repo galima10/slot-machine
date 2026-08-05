@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import type { Mesh } from "three";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { RefObject } from "react";
@@ -26,9 +26,9 @@ export function useReels(
 ) {
   const symbolAngle = (Math.PI * 2) / 10;
   const offsetAngle = symbolAngle * 2;
-  const reel1Ref = useRef<THREE.Mesh>(null);
-  const reel2Ref = useRef<THREE.Mesh>(null);
-  const reel3Ref = useRef<THREE.Mesh>(null);
+  const reel1Ref = useRef<Mesh>(null);
+  const reel2Ref = useRef<Mesh>(null);
+  const reel3Ref = useRef<Mesh>(null);
 
   const hasFinished = useRef(false);
 
@@ -75,7 +75,7 @@ export function useReels(
     }
   }
 
-  function updateReel(reel: ReelState, mesh: THREE.Mesh, delta: number) {
+  function updateReel(reel: ReelState, mesh: Mesh, delta: number) {
     if (!reel.rolling) return true;
 
     const speed = 15;
@@ -111,7 +111,7 @@ export function useReels(
 
   function setupReel(
     reel: ReelState,
-    mesh: THREE.Mesh,
+    mesh: Mesh,
     targetIndex: number,
     turns: number,
   ) {

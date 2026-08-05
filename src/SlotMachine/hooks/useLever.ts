@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import * as THREE from "three";
+import { type Group, MathUtils } from "three";
 import { MouseActionState, SlotMachineHover } from "../slot-machine.scene";
 import { type ThreeEvent, useFrame } from "@react-three/fiber";
 import type { SetStateAction, Dispatch, RefObject } from "react";
@@ -11,9 +11,9 @@ export function useLever(
   setIsHover: Dispatch<SetStateAction<SlotMachineHover>>,
   startMachine: () => void,
   isRolling: RefObject<boolean>,
-  coinRef: RefObject<THREE.Group>,
+  coinRef: RefObject<Group>,
 ) {
-  const leverRef = useRef<THREE.Group>(null);
+  const leverRef = useRef<Group>(null);
   const leverReturning = useRef(false);
 
   const dragStart = useRef({
@@ -45,7 +45,7 @@ export function useLever(
 
     const maxAngle = Math.PI / 1.5;
 
-    leverRef.current.rotation.z = THREE.MathUtils.clamp(
+    leverRef.current.rotation.z = MathUtils.clamp(
       dragStart.current.rotation + deltaY * 0.01,
       Math.PI / 12,
       maxAngle,
@@ -93,7 +93,7 @@ export function useLever(
 
     const speed = 8;
 
-    leverRef.current.rotation.z = THREE.MathUtils.lerp(
+    leverRef.current.rotation.z = MathUtils.lerp(
       current,
       Math.PI / 12,
       delta * speed,

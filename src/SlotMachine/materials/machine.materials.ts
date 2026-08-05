@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import * as THREE from "three";
+import { MeshLambertMaterial } from "three";
 import { createReelTexture } from "@/SlotMachine/utils/createReelTexture";
 import { generateReelsSymbols } from "@/SlotMachine/utils/generateReelsSymbols";
 
@@ -12,17 +12,15 @@ export function getMachineMaterials() {
 
   const reelMaterial1 = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshLambertMaterial({
         map: reelTexture1,
-        roughness: 1,
-        metalness: 0,
       }),
     [reelTexture1],
   );
 
   const reelMaterial2 = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshLambertMaterial({
         map: reelTexture2,
       }),
     [reelTexture2],
@@ -30,7 +28,7 @@ export function getMachineMaterials() {
 
   const reelMaterial3 = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new MeshLambertMaterial({
         map: reelTexture3,
       }),
     [reelTexture3],
@@ -40,14 +38,14 @@ export function getMachineMaterials() {
     body: {
       default: useMemo(
         () =>
-          new THREE.MeshLambertMaterial({
+          new MeshLambertMaterial({
             color: "#43366c",
           }),
         [],
       ),
       active: useMemo(
         () =>
-          new THREE.MeshLambertMaterial({
+          new MeshLambertMaterial({
             color: "#624f9e",
           }),
         [],
@@ -55,7 +53,7 @@ export function getMachineMaterials() {
     },
     rod: useMemo(
       () =>
-        new THREE.MeshLambertMaterial({
+        new MeshLambertMaterial({
           color: "#ffffff",
         }),
       [],
@@ -63,14 +61,14 @@ export function getMachineMaterials() {
     handle: {
       default: useMemo(
         () =>
-          new THREE.MeshLambertMaterial({
+          new MeshLambertMaterial({
             color: "#900b0b",
           }),
         [],
       ),
       active: useMemo(
         () =>
-          new THREE.MeshLambertMaterial({
+          new MeshLambertMaterial({
             color: "#c91d1d",
           }),
         [],

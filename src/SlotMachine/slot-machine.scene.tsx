@@ -3,7 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { SlotMachineModel } from "@/SlotMachine/models/machine.model";
 import { CoinModel } from "@/SlotMachine/models/coin.model";
 import { Environment } from "@react-three/drei";
-import * as THREE from "three";
+import { MOUSE, type Group } from "three";
 
 import { useState, useRef } from "react";
 
@@ -22,7 +22,7 @@ export default function SlotMachineScene() {
   });
   const machineReady = useRef(false);
   const coinDropping = useRef(false);
-  const coinRef = useRef<THREE.Group>(null);
+  const coinRef = useRef<Group>(null);
 
   const actualCoins = useRef(5);
 
@@ -32,9 +32,9 @@ export default function SlotMachineScene() {
         <OrbitControls
           enablePan={false}
           mouseButtons={{
-            LEFT: THREE.MOUSE.PAN,
-            MIDDLE: THREE.MOUSE.DOLLY,
-            RIGHT: THREE.MOUSE.ROTATE,
+            LEFT: MOUSE.PAN,
+            MIDDLE: MOUSE.DOLLY,
+            RIGHT: MOUSE.ROTATE,
           }}
         />
       )}
