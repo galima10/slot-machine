@@ -13,38 +13,39 @@ import { useReels } from "../hooks/useReels";
 import { getMachineMaterials } from "../materials/machine.materials";
 
 import { useLever } from "../hooks/useLever";
-import { useRef } from "react";
+import { useRef, type RefObject, useState } from "react";
+import { useCoinEntry } from "../hooks/useCoinEntry";
+import * as THREE from "three";
 
 type SlotMachineModelProps = ThreeElements["group"] & {
   setMouseAction: Dispatch<SetStateAction<MouseActionState>>;
   mouseAction: MouseActionState;
-  setMachineReady: Dispatch<SetStateAction<boolean>>;
-  machineReady: boolean;
-  insertCoin: () => void;
-  isHover: SlotMachineHover;
-  setIsHover: Dispatch<SetStateAction<SlotMachineHover>>;
-  usingCoin: () => void;
+  machineReady: RefObject<boolean>;
+  coinRef: RefObject<THREE.Group>;
+  coinDropping: RefObject<boolean>;
 };
 
 export function SlotMachineModel({
   setMouseAction,
   mouseAction,
-  setMachineReady,
   machineReady,
-  insertCoin,
-  isHover,
-  setIsHover,
-  usingCoin,
+  coinRef,
+  coinDropping,
   ...props
 }: SlotMachineModelProps) {
   const { nodes } = useNodes("slot-machine");
 
   const { reelMaterials, reels, machineMaterials } = getMachineMaterials();
 
+  const [isHover, setIsHover] = useState<SlotMachineHover>({
+    handle: false,
+    coinEntry: false,
+  });
+
   const isRolling = useRef(false);
 
   const { reel1Ref, reel2Ref, reel3Ref, startMachine } = useReels(
-    setMachineReady,
+    machineReady,
     reels,
     isRolling,
   );
@@ -56,28 +57,33 @@ export function SlotMachineModel({
       mouseAction,
       setIsHover,
       startMachine,
-      usingCoin,
       isRolling,
+      coinRef,
     );
+
+  const { insertCoin } = useCoinEntry(
+    machineReady,
+    setIsHover,
+    coinRef,
+    coinDropping,
+  );
 
   return (
     <group {...props} dispose={null} rotation={[0, Math.PI / 2, 0]}>
-      {/* <mesh
-        // visible={false}
-        geometry={nodes.Body.geometry}
-        material={machineMaterials.body.default}
-        scale={[0.66, 1.098, 0.666]}
-      /> */}
       <mesh
         geometry={nodes.Body.geometry}
         material={machineMaterials.body.default}
         scale={[0.66, 1.098, 0.666]}
       />
-      <mesh geometry={nodes.LeverAttach.geometry} material={machineMaterials.body.default} scale={[0.66, 1.098, 0.666]} />
+      <mesh
+        geometry={nodes.LeverAttach.geometry}
+        material={machineMaterials.body.default}
+        scale={[0.66, 1.098, 0.666]}
+      />
       <mesh
         geometry={nodes.CoinEntry.geometry}
         material={
-          isHover.coinEntry && !machineReady && !isRolling.current
+          isHover.coinEntry && !machineReady.current
             ? machineMaterials.body.active
             : machineMaterials.body.default
         }

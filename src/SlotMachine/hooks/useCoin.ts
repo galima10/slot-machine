@@ -1,18 +1,16 @@
-import { type ThreeEvent, useFrame } from "@react-three/fiber";
-import { useRef, useEffect, type SetStateAction, type Dispatch } from "react";
+import { useFrame } from "@react-three/fiber";
+import type { RefObject } from "react";
 import * as THREE from "three";
 
 export function useCoin(
-  setIsCoinDropping: Dispatch<SetStateAction<boolean>>,
-  dropping: boolean,
+  coinDropping: RefObject<boolean>,
+  coinRef: RefObject<THREE.Group>,
 ) {
-  const coinRef = useRef<THREE.Group>(null);
-
   function coinInserted(delta: number) {
-    if (!dropping || !coinRef.current) return;
+    if (!coinDropping.current || !coinRef.current) return;
     coinRef.current.children[0].visible = true;
 
-    const minY = 1.3;
+    const minY = 1.375;
 
     const speed = 8;
 
@@ -26,12 +24,12 @@ export function useCoin(
 
     if (Math.abs(coinRef.current.position.y) < 0.01) {
       coinRef.current.position.y = minY;
-      setIsCoinDropping(false);
+      coinDropping.current = false;
     }
   }
 
   useFrame((_, delta) => {
     coinInserted(delta);
   });
-  return { coinRef };
+  return { coinInserted };
 }

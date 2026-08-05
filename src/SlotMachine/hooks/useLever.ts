@@ -5,13 +5,13 @@ import { type ThreeEvent, useFrame } from "@react-three/fiber";
 import type { SetStateAction, Dispatch, RefObject } from "react";
 
 export function useLever(
-  machineReady: boolean,
+  machineReady: RefObject<boolean>,
   setMouseAction: Dispatch<SetStateAction<MouseActionState>>,
   mouseAction: MouseActionState,
   setIsHover: Dispatch<SetStateAction<SlotMachineHover>>,
   startMachine: () => void,
-  usingCoin: () => void,
   isRolling: RefObject<boolean>,
+  coinRef: RefObject<THREE.Group>,
 ) {
   const leverRef = useRef<THREE.Group>(null);
   const leverReturning = useRef(false);
@@ -22,7 +22,7 @@ export function useLever(
   });
 
   function handlePointerDown(e: ThreeEvent<PointerEvent>) {
-    if (!machineReady || isRolling.current) return;
+    if (!machineReady.current || isRolling.current) return;
     e.stopPropagation();
 
     (e.target as Element).setPointerCapture(e.pointerId);
@@ -54,7 +54,7 @@ export function useLever(
     if (leverRef.current.rotation.z === maxAngle) {
       setTimeout(() => {
         startMachine();
-        usingCoin();
+        coinRef.current.visible = false;
         leverReturning.current = true;
         setMouseAction((prev) => ({
           ...prev,

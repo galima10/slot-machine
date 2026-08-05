@@ -20,51 +20,9 @@ export default function SlotMachineScene() {
   const [mouseAction, setMouseAction] = useState<MouseActionState>({
     dragging: false,
   });
-  const [machineReady, setMachineReady] = useState<boolean>(false);
+  const machineReady = useRef(false);
   const coinDropping = useRef(false);
   const coinRef = useRef<THREE.Group>(null);
-  const [isHover, setIsHover] = useState<SlotMachineHover>({
-    handle: false,
-    coinEntry: false,
-  });
-  function insertCoin() {
-    if (machineReady) return;
-    coinRef.current.position.set(-0.72, 2.15, -0.15);
-
-    setIsHover((prev) => ({
-      ...prev,
-      coinEntry: false,
-    }));
-    coinRef.current.visible = true;
-
-    setTimeout(() => {
-      setMachineReady(true);
-
-      coinDropping.current = true;
-    }, 200);
-  }
-
-  function coinInserted(delta: number) {
-    if (!coinDropping.current || !coinRef.current) return;
-
-    const minY = 1.4;
-
-    coinRef.current.position.y = THREE.MathUtils.damp(
-      coinRef.current.position.y,
-      minY,
-      8,
-      delta,
-    );
-
-    if (Math.abs(coinRef.current.position.y - minY) < 0.001) {
-      coinRef.current.position.y = minY;
-      coinDropping.current = false;
-    }
-  }
-
-  function usingCoin() {
-    coinRef.current.visible = false;
-  }
 
   return (
     <Canvas onContextMenu={(e) => e.preventDefault()}>
@@ -87,18 +45,15 @@ export default function SlotMachineScene() {
         <CoinModel
           position={[-0.715, 2.15, -0.1325]}
           visible={false}
-          ref={coinRef}
-          coinInserted={coinInserted}
+          coinRef={coinRef}
+          coinDropping={coinDropping}
         />
         <SlotMachineModel
           setMouseAction={setMouseAction}
           mouseAction={mouseAction}
-          setMachineReady={setMachineReady}
           machineReady={machineReady}
-          insertCoin={insertCoin}
-          isHover={isHover}
-          setIsHover={setIsHover}
-          usingCoin={usingCoin}
+          coinRef={coinRef}
+          coinDropping={coinDropping}
         />
       </group>
     </Canvas>

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { useRef } from "react";
-import { type ThreeEvent, useFrame } from "@react-three/fiber";
-import type { SetStateAction, Dispatch, RefObject } from "react";
+import { useFrame } from "@react-three/fiber";
+import type { RefObject } from "react";
 import { getRandomInt } from "@/utils/getRandomInt";
 import { payouts } from "@/constants/symbols";
 
@@ -16,7 +16,7 @@ interface ReelState {
 }
 
 export function useReels(
-  setMachineReady: Dispatch<SetStateAction<boolean>>,
+  machineReady: RefObject<boolean>,
   reels: {
     reel1: string[];
     reel2: string[];
@@ -64,7 +64,7 @@ export function useReels(
 
   function finishSpin() {
     setTimeout(() => {
-      setMachineReady(false);
+      machineReady.current = false;
     }, 1000);
     const finalLine = `${reels.reel1[reel1.current.targetIndex]},${reels.reel2[reel2.current.targetIndex]},${reels.reel3[reel3.current.targetIndex]}`;
     const result = payouts[finalLine];
