@@ -3,7 +3,7 @@ import { useGLTF } from "@react-three/drei";
 import { ThreeElements } from "@react-three/fiber";
 import type { RefObject } from "react";
 import { useCoin } from "../hooks/useCoin";
-import type { CoinGLTFResult } from "@/types/GLTFResult";
+import type { CoinGLTFResult } from "@/SlotMachine/types/Coin";
 
 type CoinMachineModelProps = ThreeElements["group"] & {
   coinDropping: RefObject<boolean>;

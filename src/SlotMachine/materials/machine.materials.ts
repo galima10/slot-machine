@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import * as THREE from "three";
-import { createReelTexture } from "@/utils/createReelTexture";
-import { generateReelsSymbols } from "@/utils/generateReelsSymbols";
+import { createReelTexture } from "@/SlotMachine/utils/createReelTexture";
+import { generateReelsSymbols } from "@/SlotMachine/utils/generateReelsSymbols";
 
 export function getMachineMaterials() {
   const reels = useMemo(() => generateReelsSymbols(), []);

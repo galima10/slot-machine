@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { symbols } from "@/constants/symbols";
+import { symbols } from "@/SlotMachine/constants/symbols";
 
 export function createReelTexture(symbolsText: string[]) {
   const canvas = document.createElement("canvas");

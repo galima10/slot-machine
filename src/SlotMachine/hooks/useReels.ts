@@ -2,8 +2,8 @@ import * as THREE from "three";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { RefObject } from "react";
-import { getRandomInt } from "@/utils/getRandomInt";
-import { payouts } from "@/constants/symbols";
+import { getRandomInt } from "@/SlotMachine/utils/getRandomInt";
+import { payouts } from "@/SlotMachine/constants/symbols";
 
 interface ReelState {
   start: number;

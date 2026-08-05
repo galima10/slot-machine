@@ -3,7 +3,7 @@ import {
   reel2Map,
   reel3Map,
   type ReelMap,
-} from "@/constants/symbols";
+} from "@/SlotMachine/constants/symbols";
 
 function generateReel(map: ReelMap): string[] {
   const finalReel: string[] = [];

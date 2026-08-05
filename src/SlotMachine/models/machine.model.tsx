@@ -15,7 +15,7 @@ import { useLever } from "../hooks/useLever";
 import { useRef, type RefObject, useState } from "react";
 import { useCoinEntry } from "../hooks/useCoinEntry";
 import * as THREE from "three";
-import type { SlotMachineGLTFResult } from "@/types/GLTFResult";
+import type { SlotMachineGLTFResult } from "@/SlotMachine/types/SlotMachine";
 
 type SlotMachineModelProps = ThreeElements["group"] & {
   setMouseAction: Dispatch<SetStateAction<MouseActionState>>;
