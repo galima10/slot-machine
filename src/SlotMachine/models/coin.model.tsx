@@ -8,13 +8,11 @@ import type { CoinGLTFResult } from "@/SlotMachine/types/Coin";
 type CoinMachineModelProps = ThreeElements["group"] & {
   coinDropping: RefObject<boolean>;
   coinRef: RefObject<Group>;
-  actualCoins: RefObject<number>;
 };
 
 export function CoinModel({
   coinDropping,
   coinRef,
-  actualCoins,
   ...props
 }: CoinMachineModelProps) {
   const gltf = useGLTF(`/models/coin.glb`);

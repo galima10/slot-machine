@@ -23,7 +23,9 @@ type SlotMachineModelProps = ThreeElements["group"] & {
   machineReady: RefObject<boolean>;
   coinRef: RefObject<Group>;
   coinDropping: RefObject<boolean>;
-  actualCoins: RefObject<number>;
+  setCoins: (delta: number) => void;
+  setLine: (symbol: string) => void;
+  clearLine: () => void
 };
 
 export function SlotMachineModel({
@@ -32,7 +34,9 @@ export function SlotMachineModel({
   machineReady,
   coinRef,
   coinDropping,
-  actualCoins,
+  setCoins,
+  setLine,
+  clearLine,
   ...props
 }: SlotMachineModelProps) {
   const gltf = useGLTF(`/models/slot-machine.glb`);
@@ -51,6 +55,8 @@ export function SlotMachineModel({
     machineReady,
     reels,
     isRolling,
+    setCoins,
+    setLine
   );
 
   const { handlePointerDown, handlePointerMove, handlePointerUp, leverRef } =
@@ -69,6 +75,8 @@ export function SlotMachineModel({
     setIsHover,
     coinRef,
     coinDropping,
+    setCoins,
+    clearLine
   );
 
   return (

@@ -16,11 +16,7 @@ export function useCoin(
 
     const current = coinRef.current.position.y;
 
-    coinRef.current.position.y = MathUtils.lerp(
-      current,
-      minY,
-      delta * speed,
-    );
+    coinRef.current.position.y = MathUtils.lerp(current, minY, delta * speed);
 
     if (Math.abs(coinRef.current.position.y) < 0.01) {
       coinRef.current.position.y = minY;

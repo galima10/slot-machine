@@ -7,6 +7,8 @@ export function useCoinEntry(
   setIsHover: Dispatch<SetStateAction<SlotMachineHover>>,
   coinRef: RefObject<Group>,
   coinDropping: RefObject<boolean>,
+  setCoins: (delta: number) => void,
+  clearLine: () => void,
 ) {
   function insertCoin() {
     if (machineReady.current) return;
@@ -16,11 +18,13 @@ export function useCoinEntry(
       coinEntry: false,
     }));
     coinRef.current.visible = true;
+    clearLine();
 
     setTimeout(() => {
       machineReady.current = true;
 
       coinDropping.current = true;
+      setCoins(-1);
     }, 200);
   }
   return { insertCoin };

@@ -5,7 +5,7 @@ import { CoinModel } from "@/SlotMachine/models/coin.model";
 import { Environment } from "@react-three/drei";
 import { MOUSE, type Group } from "three";
 
-import { useState, useRef } from "react";
+import { useState, useRef, type RefObject } from "react";
 
 export interface MouseActionState {
   dragging: boolean;
@@ -16,15 +16,23 @@ export interface SlotMachineHover {
   coinEntry: boolean;
 }
 
-export default function SlotMachineScene() {
+interface SlotMachineSceneProps {
+  setCoins: (delta: number) => void;
+  setLine: (symbol: string) => void;
+  clearLine: () => void;
+}
+
+export default function SlotMachineScene({
+  setCoins,
+  setLine,
+  clearLine,
+}: SlotMachineSceneProps) {
   const [mouseAction, setMouseAction] = useState<MouseActionState>({
     dragging: false,
   });
   const machineReady = useRef(false);
   const coinDropping = useRef(false);
   const coinRef = useRef<Group>(null);
-
-  const actualCoins = useRef(5);
 
   return (
     <Canvas onContextMenu={(e) => e.preventDefault()}>
@@ -49,7 +57,6 @@ export default function SlotMachineScene() {
           visible={false}
           coinRef={coinRef}
           coinDropping={coinDropping}
-          actualCoins={actualCoins}
         />
         <SlotMachineModel
           setMouseAction={setMouseAction}
@@ -57,7 +64,9 @@ export default function SlotMachineScene() {
           machineReady={machineReady}
           coinRef={coinRef}
           coinDropping={coinDropping}
-          actualCoins={actualCoins}
+          setCoins={setCoins}
+          setLine={setLine}
+          clearLine={clearLine}
         />
       </group>
     </Canvas>

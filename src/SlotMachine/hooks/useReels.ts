@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { RefObject } from "react";
 import { getRandomInt } from "@/SlotMachine/utils/getRandomInt";
-import { payouts } from "@/SlotMachine/constants/symbols";
+import { payouts, symbols } from "@/SlotMachine/constants/symbols";
 
 interface ReelState {
   start: number;
@@ -23,6 +23,8 @@ export function useReels(
     reel3: string[];
   },
   isRolling: RefObject<boolean>,
+  setCoins: (delta: number) => void,
+  setLine: (symbol: string) => void,
 ) {
   const symbolAngle = (Math.PI * 2) / 10;
   const offsetAngle = symbolAngle * 2;
@@ -69,13 +71,16 @@ export function useReels(
     const finalLine = `${reels.reel1[reel1.current.targetIndex]},${reels.reel2[reel2.current.targetIndex]},${reels.reel3[reel3.current.targetIndex]}`;
     const result = payouts[finalLine];
     if (result) {
-      console.log(finalLine, result?.coins);
-    } else {
-      console.error("Perdu", finalLine);
+      setCoins(result?.coins);
     }
   }
 
-  function updateReel(reel: ReelState, mesh: Mesh, delta: number) {
+  function updateReel(
+    reel: ReelState,
+    mesh: Mesh,
+    delta: number,
+    reelSymbols: string[],
+  ) {
     if (!reel.rolling) return true;
 
     const speed = 15;
@@ -89,6 +94,7 @@ export function useReels(
     ) {
       mesh.rotation.y = reel.target;
       reel.rolling = false;
+      setLine(symbols[reelSymbols[reel.targetIndex]]);
       return true;
     }
 
@@ -131,9 +137,24 @@ export function useReels(
   }
 
   useFrame((_, delta) => {
-    const reel1Done = updateReel(reel1.current, reel1Ref.current, delta);
-    const reel2Done = updateReel(reel2.current, reel2Ref.current, delta);
-    const reel3Done = updateReel(reel3.current, reel3Ref.current, delta);
+    const reel1Done = updateReel(
+      reel1.current,
+      reel1Ref.current,
+      delta,
+      reels.reel1,
+    );
+    const reel2Done = updateReel(
+      reel2.current,
+      reel2Ref.current,
+      delta,
+      reels.reel2,
+    );
+    const reel3Done = updateReel(
+      reel3.current,
+      reel3Ref.current,
+      delta,
+      reels.reel3,
+    );
 
     if (
       reel1Done &&
