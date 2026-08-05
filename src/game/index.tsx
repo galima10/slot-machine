@@ -1,30 +1,46 @@
 import SlotMachineScene from "@/SlotMachine/slot-machine.scene";
+import HUD from "@/HUD/hud";
 import { useEffect, useState } from "react";
 
+export interface GameInfos {
+  coins: number;
+  line: string[];
+}
+
 export default function GamePage() {
-  const [currentCoins, setCurrentCoins] = useState(5);
-  const [currentLine, setCurrentLine] = useState([]);
-  useEffect(() => {
-    console.log(`Pièces: ${currentCoins}`);
-  }, [currentCoins]);
-  useEffect(() => {
-    console.log(`Sortie actuelle: ${currentLine}`);
-  }, [currentLine]);
+  const [gameInfos, setGameInfos] = useState<GameInfos>({
+    coins: 100,
+    line: [],
+  });
 
   function setCoins(delta: number) {
-    if (currentCoins <= 0) return;
-    setCurrentCoins((prev) => prev + delta);
+    if (gameInfos.coins <= 0) return;
+    setGameInfos((prev) => ({
+      ...prev,
+      coins: prev.coins + delta,
+    }));
   }
   function setLine(symbol: string) {
-    if (currentLine.length >= 3) return;
-    setCurrentLine((prev) => [...prev, symbol]);
+    if (gameInfos.line.length >= 3) return;
+    setGameInfos((prev) => ({
+      ...prev,
+      line: [...prev.line, symbol],
+    }));
   }
-  function clearLine(){
-    setCurrentLine([])
+  function clearLine() {
+    setGameInfos((prev) => ({
+      ...prev,
+      line: [],
+    }));
   }
   return (
     <div className="page">
-      <SlotMachineScene setCoins={setCoins} setLine={setLine} clearLine={clearLine} />
+      <SlotMachineScene
+        setCoins={setCoins}
+        setLine={setLine}
+        clearLine={clearLine}
+      />
+      <HUD gameInfos={gameInfos} />
     </div>
   );
 }

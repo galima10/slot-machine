@@ -48,9 +48,9 @@ export default function SlotMachineScene({
       )}
 
       <Environment preset="warehouse" />
-      <ambientLight intensity={2.5} />
+      <ambientLight intensity={2} />
 
-      <directionalLight position={[5, 10, 5]} intensity={1} castShadow />
+      <directionalLight position={[5, 10, 5]} intensity={0.5} castShadow />
       <group position={[0, -1.75, 0]}>
         <CoinModel
           position={[-0.715, 2.15, -0.1325]}
