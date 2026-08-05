@@ -62,12 +62,18 @@ export function SlotMachineModel({
 
   return (
     <group {...props} dispose={null} rotation={[0, Math.PI / 2, 0]}>
-      <mesh
+      {/* <mesh
         // visible={false}
         geometry={nodes.Body.geometry}
         material={machineMaterials.body.default}
         scale={[0.66, 1.098, 0.666]}
+      /> */}
+      <mesh
+        geometry={nodes.Body.geometry}
+        material={machineMaterials.body.default}
+        scale={[0.66, 1.098, 0.666]}
       />
+      <mesh geometry={nodes.LeverAttach.geometry} material={machineMaterials.body.default} scale={[0.66, 1.098, 0.666]} />
       <mesh
         geometry={nodes.CoinEntry.geometry}
         material={

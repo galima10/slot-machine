@@ -41,14 +41,14 @@ export function getMachineMaterials() {
       default: useMemo(
         () =>
           new THREE.MeshLambertMaterial({
-            color: "#38266c",
+            color: "#43366c",
           }),
         [],
       ),
       active: useMemo(
         () =>
           new THREE.MeshLambertMaterial({
-            color: "#5438a9",
+            color: "#624f9e",
           }),
         [],
       ),
