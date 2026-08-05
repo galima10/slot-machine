@@ -6,6 +6,7 @@ import { Environment } from "@react-three/drei";
 import { MOUSE, type Group } from "three";
 
 import { useState, useRef, type RefObject } from "react";
+import { CameraZoom } from "./zoom.camera";
 
 export interface MouseActionState {
   dragging: boolean;
@@ -20,12 +21,14 @@ interface SlotMachineSceneProps {
   setCoins: (delta: number) => void;
   setLine: (symbol: string) => void;
   clearLine: () => void;
+  gameStarted: boolean;
 }
 
 export default function SlotMachineScene({
   setCoins,
   setLine,
   clearLine,
+  gameStarted,
 }: SlotMachineSceneProps) {
   const [mouseAction, setMouseAction] = useState<MouseActionState>({
     dragging: false,
@@ -35,8 +38,17 @@ export default function SlotMachineScene({
   const coinRef = useRef<Group>(null);
 
   return (
-    <Canvas onContextMenu={(e) => e.preventDefault()}>
-      {!Object.values(mouseAction).some(Boolean) && (
+    <Canvas
+      onContextMenu={(e) => e.preventDefault()}
+      camera={{
+        position: [0, 2, 20],
+        fov: 45,
+        near: 0.1,
+        far: 100,
+      }}
+    >
+      <CameraZoom gameStarted={gameStarted}/>
+      {!Object.values(mouseAction).some(Boolean) && gameStarted && (
         <OrbitControls
           enablePan={false}
           mouseButtons={{
@@ -67,6 +79,7 @@ export default function SlotMachineScene({
           setCoins={setCoins}
           setLine={setLine}
           clearLine={clearLine}
+          gameStarted={gameStarted}
         />
       </group>
     </Canvas>

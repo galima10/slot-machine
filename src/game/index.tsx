@@ -1,14 +1,17 @@
 import SlotMachineScene from "@/SlotMachine/slot-machine.scene";
-import HUD from "@/HUD/hud";
-import { useEffect, useState } from "react";
+import Hud from "@/HUD/hud";
+import { useState, useRef } from "react";
+import { OrbitControls } from "three-stdlib";
 
 export interface GameInfos {
+  started: boolean;
   coins: number;
   line: string[];
 }
 
 export default function GamePage() {
   const [gameInfos, setGameInfos] = useState<GameInfos>({
+    started: false,
     coins: 100,
     line: [],
   });
@@ -33,14 +36,18 @@ export default function GamePage() {
       line: [],
     }));
   }
+
+  const canMove = useRef(false)
   return (
     <div className="page">
       <SlotMachineScene
         setCoins={setCoins}
         setLine={setLine}
         clearLine={clearLine}
+        gameStarted={gameInfos.started}
+        canMove={canMove}
       />
-      <HUD gameInfos={gameInfos} />
+      <Hud gameInfos={gameInfos} setGameInfos={setGameInfos} />
     </div>
   );
 }

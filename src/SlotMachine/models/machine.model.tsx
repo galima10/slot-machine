@@ -25,7 +25,8 @@ type SlotMachineModelProps = ThreeElements["group"] & {
   coinDropping: RefObject<boolean>;
   setCoins: (delta: number) => void;
   setLine: (symbol: string) => void;
-  clearLine: () => void
+  clearLine: () => void;
+  gameStarted: boolean;
 };
 
 export function SlotMachineModel({
@@ -37,6 +38,7 @@ export function SlotMachineModel({
   setCoins,
   setLine,
   clearLine,
+  gameStarted,
   ...props
 }: SlotMachineModelProps) {
   const gltf = useGLTF(`/models/slot-machine.glb`);
@@ -56,7 +58,7 @@ export function SlotMachineModel({
     reels,
     isRolling,
     setCoins,
-    setLine
+    setLine,
   );
 
   const { handlePointerDown, handlePointerMove, handlePointerUp, leverRef } =
@@ -76,7 +78,7 @@ export function SlotMachineModel({
     coinRef,
     coinDropping,
     setCoins,
-    clearLine
+    clearLine,
   );
 
   return (
@@ -94,7 +96,7 @@ export function SlotMachineModel({
       <mesh
         geometry={nodes.CoinEntry.geometry}
         material={
-          isHover.coinEntry && !machineReady.current
+          isHover.coinEntry && !machineReady.current && gameStarted
             ? machineMaterials.body.active
             : machineMaterials.body.default
         }
@@ -111,7 +113,7 @@ export function SlotMachineModel({
             coinEntry: false,
           }))
         }
-        onClick={insertCoin}
+        onClick={gameStarted && insertCoin}
       />
       <group
         ref={leverRef}
@@ -128,7 +130,10 @@ export function SlotMachineModel({
         <mesh
           geometry={nodes.Cylinder002_1.geometry}
           material={
-            (mouseAction.dragging || isHover.handle) && !isRolling.current
+            (mouseAction.dragging || isHover.handle) &&
+            !isRolling.current &&
+            machineReady &&
+            gameStarted
               ? machineMaterials.handle.active
               : machineMaterials.handle.default
           }
@@ -136,7 +141,6 @@ export function SlotMachineModel({
           onPointerUp={handlePointerUp}
           onPointerMove={handlePointerMove}
           onPointerOver={() =>
-            machineReady &&
             setIsHover((prev) => ({
               ...prev,
               handle: true,
