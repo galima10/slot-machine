@@ -1,29 +1,25 @@
 import * as THREE from "three";
 import { useGLTF } from "@react-three/drei";
-import type { GLTF } from "three-stdlib";
 import { ThreeElements } from "@react-three/fiber";
-import { useNodes } from "@/hooks/useNodes";
-import {
-  useMemo,
-  useRef,
-  type SetStateAction,
-  type Dispatch,
-  RefObject,
-} from "react";
+import type { RefObject } from "react";
 import { useCoin } from "../hooks/useCoin";
-import { useFrame } from "@react-three/fiber";
+import type { CoinGLTFResult } from "@/types/GLTFResult";
 
 type CoinMachineModelProps = ThreeElements["group"] & {
   coinDropping: RefObject<boolean>;
   coinRef: RefObject<THREE.Group>;
+  actualCoins: RefObject<number>;
 };
 
 export function CoinModel({
   coinDropping,
   coinRef,
+  actualCoins,
   ...props
 }: CoinMachineModelProps) {
-  const { nodes, materials } = useNodes("coin");
+  const gltf = useGLTF(`/models/coin.glb`);
+  const nodes = gltf.nodes as CoinGLTFResult["nodes"];
+  const materials = gltf.materials as CoinGLTFResult["nodes"];
 
   useCoin(coinDropping, coinRef);
   return (

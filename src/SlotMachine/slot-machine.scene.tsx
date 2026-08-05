@@ -24,6 +24,8 @@ export default function SlotMachineScene() {
   const coinDropping = useRef(false);
   const coinRef = useRef<THREE.Group>(null);
 
+  const actualCoins = useRef(5);
+
   return (
     <Canvas onContextMenu={(e) => e.preventDefault()}>
       {!Object.values(mouseAction).some(Boolean) && (
@@ -47,6 +49,7 @@ export default function SlotMachineScene() {
           visible={false}
           coinRef={coinRef}
           coinDropping={coinDropping}
+          actualCoins={actualCoins}
         />
         <SlotMachineModel
           setMouseAction={setMouseAction}
@@ -54,6 +57,7 @@ export default function SlotMachineScene() {
           machineReady={machineReady}
           coinRef={coinRef}
           coinDropping={coinDropping}
+          actualCoins={actualCoins}
         />
       </group>
     </Canvas>

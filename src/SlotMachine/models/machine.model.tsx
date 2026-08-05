@@ -6,7 +6,6 @@ import type {
   SlotMachineHover,
 } from "@/SlotMachine/slot-machine.scene";
 import { SetStateAction, Dispatch } from "react";
-import { useNodes } from "@/hooks/useNodes";
 
 import { useReels } from "../hooks/useReels";
 
@@ -16,6 +15,7 @@ import { useLever } from "../hooks/useLever";
 import { useRef, type RefObject, useState } from "react";
 import { useCoinEntry } from "../hooks/useCoinEntry";
 import * as THREE from "three";
+import type { SlotMachineGLTFResult } from "@/types/GLTFResult";
 
 type SlotMachineModelProps = ThreeElements["group"] & {
   setMouseAction: Dispatch<SetStateAction<MouseActionState>>;
@@ -23,6 +23,7 @@ type SlotMachineModelProps = ThreeElements["group"] & {
   machineReady: RefObject<boolean>;
   coinRef: RefObject<THREE.Group>;
   coinDropping: RefObject<boolean>;
+  actualCoins: RefObject<number>;
 };
 
 export function SlotMachineModel({
@@ -31,9 +32,11 @@ export function SlotMachineModel({
   machineReady,
   coinRef,
   coinDropping,
+  actualCoins,
   ...props
 }: SlotMachineModelProps) {
-  const { nodes } = useNodes("slot-machine");
+  const gltf = useGLTF(`/models/slot-machine.glb`);
+  const nodes = gltf.nodes as SlotMachineGLTFResult["nodes"];
 
   const { reelMaterials, reels, machineMaterials } = getMachineMaterials();
 
