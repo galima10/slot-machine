@@ -5,7 +5,7 @@ import { visualizer } from "rollup-plugin-visualizer";
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./",
+  base: "/slot-machine/",
   server: { port: 5000 },
   plugins: [
     react(),
