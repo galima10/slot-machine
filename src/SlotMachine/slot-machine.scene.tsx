@@ -5,7 +5,7 @@ import { CoinModel } from "@/SlotMachine/models/coin.model";
 import { Environment } from "@react-three/drei";
 import { MOUSE, type Group } from "three";
 
-import { useState, useRef, type RefObject } from "react";
+import { useState, useRef, type SetStateAction, type Dispatch } from "react";
 import { CameraZoom } from "./zoom.camera";
 
 export interface MouseActionState {
@@ -21,14 +21,20 @@ interface SlotMachineSceneProps {
   setCoins: (delta: number) => void;
   setLine: (symbol: string) => void;
   clearLine: () => void;
+  canPlay: boolean;
   gameStarted: boolean;
+  setCanPlay: Dispatch<SetStateAction<boolean>>;
+  setIsWinning: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function SlotMachineScene({
   setCoins,
   setLine,
   clearLine,
+  canPlay,
   gameStarted,
+  setCanPlay,
+  setIsWinning,
 }: SlotMachineSceneProps) {
   const [mouseAction, setMouseAction] = useState<MouseActionState>({
     dragging: false,
@@ -41,14 +47,14 @@ export default function SlotMachineScene({
     <Canvas
       onContextMenu={(e) => e.preventDefault()}
       camera={{
-        position: [0, 2, 20],
+        position: [0, 2, 25],
         fov: 45,
         near: 0.1,
         far: 100,
       }}
     >
-      <CameraZoom gameStarted={gameStarted}/>
-      {!Object.values(mouseAction).some(Boolean) && gameStarted && (
+      <CameraZoom gameStarted={gameStarted} setCanPlay={setCanPlay} />
+      {!Object.values(mouseAction).some(Boolean) && canPlay && (
         <OrbitControls
           enablePan={false}
           mouseButtons={{
@@ -79,7 +85,8 @@ export default function SlotMachineScene({
           setCoins={setCoins}
           setLine={setLine}
           clearLine={clearLine}
-          gameStarted={gameStarted}
+          canPlay={canPlay}
+          setIsWinning={setIsWinning}
         />
       </group>
     </Canvas>

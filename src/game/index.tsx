@@ -1,7 +1,6 @@
 import SlotMachineScene from "@/SlotMachine/slot-machine.scene";
 import Hud from "@/HUD/hud";
 import { useState, useRef } from "react";
-import { OrbitControls } from "three-stdlib";
 
 export interface GameInfos {
   started: boolean;
@@ -15,6 +14,8 @@ export default function GamePage() {
     coins: 100,
     line: [],
   });
+  const [canPlay, setCanPlay] = useState(false);
+  const [isWinning, setIsWinning] = useState(false);
 
   function setCoins(delta: number) {
     if (gameInfos.coins <= 0) return;
@@ -35,19 +36,26 @@ export default function GamePage() {
       ...prev,
       line: [],
     }));
+    setIsWinning(false);
   }
 
-  const canMove = useRef(false)
   return (
     <div className="page">
       <SlotMachineScene
         setCoins={setCoins}
         setLine={setLine}
         clearLine={clearLine}
+        canPlay={canPlay}
         gameStarted={gameInfos.started}
-        canMove={canMove}
+        setCanPlay={setCanPlay}
+        setIsWinning={setIsWinning}
       />
-      <Hud gameInfos={gameInfos} setGameInfos={setGameInfos} />
+      <Hud
+        gameInfos={gameInfos}
+        setGameInfos={setGameInfos}
+        canPlay={canPlay}
+        isWinning={isWinning}
+      />
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import type { Mesh } from "three";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import type { RefObject } from "react";
+import type { RefObject, Dispatch, SetStateAction } from "react";
 import { getRandomInt } from "@/SlotMachine/utils/getRandomInt";
 import { payouts, symbols } from "@/SlotMachine/constants/symbols";
 
@@ -25,6 +25,7 @@ export function useReels(
   isRolling: RefObject<boolean>,
   setCoins: (delta: number) => void,
   setLine: (symbol: string) => void,
+  setIsWinning: Dispatch<SetStateAction<boolean>>,
 ) {
   const symbolAngle = (Math.PI * 2) / 10;
   const offsetAngle = symbolAngle * 2;
@@ -72,6 +73,9 @@ export function useReels(
     const result = payouts[finalLine];
     if (result) {
       setCoins(result?.coins);
+      setTimeout(() => {
+        setIsWinning(true);
+      }, 500);
     }
   }
 

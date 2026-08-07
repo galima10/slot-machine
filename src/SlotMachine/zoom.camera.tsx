@@ -1,15 +1,21 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { useRef } from "react";
+import {
+  useRef,
+  type RefObject,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import * as THREE from "three";
 
 interface CameraZoomProps {
   gameStarted: boolean;
+  setCanPlay: Dispatch<SetStateAction<boolean>>;
 }
 
-export function CameraZoom({ gameStarted }: CameraZoomProps) {
+export function CameraZoom({ gameStarted, setCanPlay }: CameraZoomProps) {
   const { camera } = useThree();
 
-  const targetPosition = useRef(new THREE.Vector3(0, 2, 5));
+  const targetPosition = useRef(new THREE.Vector3(0, 0.4, 5));
   const hasZoomed = useRef(false);
 
   function zoom(delta: number) {
@@ -20,7 +26,7 @@ export function CameraZoom({ gameStarted }: CameraZoomProps) {
     if (camera.position.distanceTo(targetPosition.current) < 0.01) {
       camera.position.copy(targetPosition.current);
       hasZoomed.current = true;
-      console.log("zoom")
+      setCanPlay(true);
     }
   }
 

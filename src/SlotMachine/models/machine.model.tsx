@@ -26,7 +26,8 @@ type SlotMachineModelProps = ThreeElements["group"] & {
   setCoins: (delta: number) => void;
   setLine: (symbol: string) => void;
   clearLine: () => void;
-  gameStarted: boolean;
+  canPlay: boolean;
+  setIsWinning: Dispatch<SetStateAction<boolean>>;
 };
 
 export function SlotMachineModel({
@@ -38,7 +39,8 @@ export function SlotMachineModel({
   setCoins,
   setLine,
   clearLine,
-  gameStarted,
+  canPlay,
+  setIsWinning,
   ...props
 }: SlotMachineModelProps) {
   const gltf = useGLTF(`/models/slot-machine.glb`);
@@ -59,6 +61,7 @@ export function SlotMachineModel({
     isRolling,
     setCoins,
     setLine,
+    setIsWinning,
   );
 
   const { handlePointerDown, handlePointerMove, handlePointerUp, leverRef } =
@@ -96,24 +99,27 @@ export function SlotMachineModel({
       <mesh
         geometry={nodes.CoinEntry.geometry}
         material={
-          isHover.coinEntry && !machineReady.current && gameStarted
+          isHover.coinEntry && !machineReady.current && canPlay
             ? machineMaterials.body.active
             : machineMaterials.body.default
         }
         scale={[0.66, 1.098, 0.666]}
-        onPointerOver={() =>
+        onPointerOver={() => {
+          if (machineReady.current) return;
+          document.body.style.cursor = "pointer";
           setIsHover((prev) => ({
             ...prev,
             coinEntry: true,
-          }))
-        }
-        onPointerOut={() =>
+          }));
+        }}
+        onPointerOut={() => {
+          document.body.style.cursor = "default";
           setIsHover((prev) => ({
             ...prev,
             coinEntry: false,
-          }))
-        }
-        onClick={gameStarted && insertCoin}
+          }));
+        }}
+        onClick={canPlay && insertCoin}
       />
       <group
         ref={leverRef}
@@ -132,26 +138,33 @@ export function SlotMachineModel({
           material={
             (mouseAction.dragging || isHover.handle) &&
             !isRolling.current &&
-            machineReady &&
-            gameStarted
+            machineReady.current &&
+            canPlay
               ? machineMaterials.handle.active
               : machineMaterials.handle.default
           }
-          onPointerDown={handlePointerDown}
+          onPointerDown={(e) => {
+            handlePointerDown(e);
+            if (!machineReady.current || isRolling.current) return;
+            document.body.style.cursor = "grabbing";
+          }}
           onPointerUp={handlePointerUp}
           onPointerMove={handlePointerMove}
-          onPointerOver={() =>
+          onPointerOver={() => {
+            if (!machineReady.current || isRolling.current) return;
+            document.body.style.cursor = "grab";
             setIsHover((prev) => ({
               ...prev,
               handle: true,
-            }))
-          }
-          onPointerOut={() =>
+            }));
+          }}
+          onPointerOut={() => {
+            document.body.style.cursor = "default";
             setIsHover((prev) => ({
               ...prev,
               handle: false,
-            }))
-          }
+            }));
+          }}
           castShadow
           receiveShadow
         />
