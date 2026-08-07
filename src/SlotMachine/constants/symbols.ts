@@ -52,7 +52,7 @@ export const payouts: {
   },
 
   "star,star,star": {
-    coins: 25,
+    coins: 15,
   },
 
   "seven,seven,seven": {
@@ -60,18 +60,18 @@ export const payouts: {
   },
 
   "cherry,cherry,diamond": {
-    coins: 15,
+    coins: 10,
   },
 
   "lemon,lemon,diamond": {
-    coins: 30,
+    coins: 20,
   },
 
   "star,star,diamond": {
-    coins: 75,
+    coins: 30,
   },
 
   "seven,seven,diamond": {
-    coins: 300,
+    coins: 150,
   },
 };

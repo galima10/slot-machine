@@ -11,7 +11,7 @@ export interface GameInfos {
 export default function GamePage() {
   const [gameInfos, setGameInfos] = useState<GameInfos>({
     started: false,
-    coins: 100,
+    coins: 40,
     line: [],
   });
   const [canPlay, setCanPlay] = useState(false);
