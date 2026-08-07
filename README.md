@@ -2,6 +2,14 @@
 
 3D Slot Machine est un petit projet découverte du framework React Three Fiber issu de la librairie Three.js. Modélisant une machine à sous de casino, le but est de remporter le plus de pièces fictives possible via une combinaison de 3 symboles identiques lors du roulement de la machine.
 
+## Stack
+
+- React
+- TypeScript
+- React Three Fiber
+- Sass
+- Vite
+
 ## Interactions
 
 - Tourner la caméra avec clic droit
