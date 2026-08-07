@@ -43,7 +43,7 @@ export function SlotMachineModel({
   setIsWinning,
   ...props
 }: SlotMachineModelProps) {
-  const gltf = useGLTF(`/models/slot-machine.glb`);
+  const gltf = useGLTF(`${import.meta.env.BASE_URL}models/slot-machine.glb`);
   const nodes = gltf.nodes as SlotMachineGLTFResult["nodes"];
 
   const { reelMaterials, reels, machineMaterials } = getMachineMaterials();

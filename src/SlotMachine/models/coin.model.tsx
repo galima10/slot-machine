@@ -5,6 +5,7 @@ import type { RefObject } from "react";
 import { useCoin } from "../hooks/useCoin";
 import type { CoinGLTFResult } from "@/SlotMachine/types/Coin";
 
+
 type CoinMachineModelProps = ThreeElements["group"] & {
   coinDropping: RefObject<boolean>;
   coinRef: RefObject<Group>;
@@ -15,7 +16,7 @@ export function CoinModel({
   coinRef,
   ...props
 }: CoinMachineModelProps) {
-  const gltf = useGLTF(`/models/coin.glb`);
+  const gltf = useGLTF(`${import.meta.env.BASE_URL}models/coin.glb`);
   const nodes = gltf.nodes as CoinGLTFResult["nodes"];
   const materials = gltf.materials as CoinGLTFResult["nodes"];
 
